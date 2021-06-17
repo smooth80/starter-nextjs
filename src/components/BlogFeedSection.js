@@ -12,13 +12,25 @@ export default class BlogFeedSection extends React.Component {
         const sectionCategoryRef = _.get(section, 'category');
         if (sectionAuthorRef) {
             const sectionAuthor = getData(data, sectionAuthorRef);
-            const postAuthorRef = _.get(post, 'author')
+            if (_.isEmpty(sectionAuthor)) {
+                return null;
+            }
+            const postAuthorRef = _.get(post, 'author');
+            if (!postAuthorRef) {
+                return null;
+            }
             const postAuthor = getData(data, postAuthorRef);
+            if (_.isEmpty(postAuthor)) {
+                return null;
+            }
             if (postAuthor.id === sectionAuthor.id) {
                 return this.renderBlogFeedItem(post, data, sectionTitle);
             }
         } else if (sectionCategoryRef) {
             const sectionCategory = getData(data, sectionCategoryRef);
+            if (_.isEmpty(sectionCategory)) {
+                return null;
+            }
             const postCategoryRefs = _.get(post, 'categories');
             const postCategories = _.map(postCategoryRefs, (postCategoryRef) => {
                 return getData(data, postCategoryRef);
